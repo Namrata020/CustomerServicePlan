@@ -3,6 +3,8 @@ package com.test;
 import static com.code.CustomerUtils.populateCustomerList;
 import static custom_exception.ValidationRules.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.Scanner;
 
 import com.code.Customer;
 import com.code.ServicePlan;
-
+import static utils.IOUtils_service.*;
 import custom_ordering.CustomerDobComparator;
 
 public class TestCustomer {
@@ -29,7 +31,9 @@ public class TestCustomer {
 				System.out.println("Options: ");
 				System.out.println("1.Sign Up\n"+"2.Sign In\n"+"3.Display all\n"+"4.Change Password\n"
 						+ "5.Un subscribe\n"+"6.Sort based on email\n"+"7.Sort based on DOB\n"+
-						"8.Sort based on DOB & NAME\n"+"9.Subscription not paid for 3 months\n"+"10.Subscription not paid for 6 months\n"+"0. Exit");
+						"8.Sort based on DOB & NAME\n"+"9.Subscription not paid for 3 months\n"+
+						"10.Subscription not paid for 6 months\n"+"11.Store details in a file and read data from file\n"
+						+"0. Exit");
 					try {
 						switch (sc.nextInt()) {
 						case 1:
@@ -138,6 +142,21 @@ public class TestCustomer {
 							for(Customer i:cls1) {
 								System.out.println(i);
 								}
+							break;
+							
+						case 11:
+							System.out.println("Enter fileName to store data");
+							sc.nextLine();
+							String fileName = sc.nextLine();
+							storeCustomerDetails(customerList,fileName);
+							System.out.println("Data stored in file successfully!!");
+							System.out.println("--------------------------------");
+							System.out.println("Enter file name to read data");
+							try(BufferedReader br = new BufferedReader(new FileReader(sc.nextLine()))){
+								br.lines()
+								.forEach(p -> System.out.println(p));
+								System.out.println("--------------------Data read over--------------");
+							}
 							break;
 							
 						case 0:
